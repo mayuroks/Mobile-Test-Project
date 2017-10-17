@@ -22,7 +22,8 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     public void setContentView(@LayoutRes int layoutResID) {
         super.setContentView(layoutResID);
-        baseLayout = (RelativeLayout) LayoutInflater.from(this).inflate(R.layout.activity_base, null);
+        baseLayout = (RelativeLayout) LayoutInflater.from(this)
+                .inflate(R.layout.activity_base, null);
         setContentView(baseLayout);
     }
 }
