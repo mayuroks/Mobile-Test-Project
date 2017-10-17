@@ -1,4 +1,4 @@
-package project.test.mobile.mobiletestproject;
+package project.test.mobile;
 
 import org.junit.Test;
 
