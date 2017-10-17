@@ -8,4 +8,43 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <!-- XLarge text style -->
+    <style name="XLargeTextAccentBold">
+        <item name="fontpath">"fonts/Lato-Bold.ttf"</item>
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:textSize">@dimen/xlarge</item>
+    </style>
+
+    <style name="XLargeTextBold">
+        <item name="fontpath">"fonts/Lato-Bold.ttf"</item>
+        <item name="android:textColor">@color/colorText</item>
+        <item name="android:textSize">@dimen/xlarge</item>
+    </style>
+
+    <!-- Large text style -->
+    <style name="LargeTextAccentBold">
+        <item name="fontpath">"fonts/Lato-Bold.ttf"</item>
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:textSize">@dimen/large</item>
+    </style>
+
+    <style name="LargeTextBold">
+        <item name="fontpath">"fonts/Lato-Bold.ttf"</item>
+        <item name="android:textColor">@color/colorText</item>
+        <item name="android:textSize">@dimen/large</item>
+    </style>
+
+    <!-- Normal text style -->
+    <style name="NormalTextBold">
+        <item name="fontpath">"fonts/Lato-Bold.ttf"</item>
+        <item name="android:textColor">@color/colorText</item>
+        <item name="android:textSize">@dimen/normal</item>
+    </style>
+
+    <style name="NormalTextAccentBold">
+        <item name="fontpath">"fonts/Lato-Bold.ttf"</item>
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:textSize">@dimen/normal</item>
+    </style>
+
 </resources>
