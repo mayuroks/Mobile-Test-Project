@@ -1,9 +1,9 @@
-package project.test.mobile.mobiletestproject;
+package project.test.mobile;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class Registration extends AppCompatActivity {
+public class RegistrationActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

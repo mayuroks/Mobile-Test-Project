@@ -1,4 +1,4 @@
-package project.test.mobile.mobiletestproject;
+package project.test.mobile;
 
 /**
  * Created by Mayur on 17-10-2017.
