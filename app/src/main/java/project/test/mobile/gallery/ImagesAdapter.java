@@ -1,6 +1,7 @@
 package project.test.mobile.gallery;
 
 import android.content.Context;
+import android.support.annotation.UiThread;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,8 +30,8 @@ import project.test.mobile.utils.TextUtils;
 
 public class ImagesAdapter extends RecyclerView.Adapter<ImagesAdapter.ViewHolder> {
 
-    ArrayList<SearchResultImage> items;
-    Context context;
+    private ArrayList<SearchResultImage> items;
+    private Context context;
 
     public ImagesAdapter(Context context, ArrayList<SearchResultImage> items) {
         this.context = context;
@@ -91,5 +92,10 @@ public class ImagesAdapter extends RecyclerView.Adapter<ImagesAdapter.ViewHolder
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
+    }
+
+    @UiThread
+    public void addItems(ArrayList<SearchResultImage> items) {
+        this.items.addAll(items);
     }
 }

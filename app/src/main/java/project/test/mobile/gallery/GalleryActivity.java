@@ -4,9 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.view.View;
-import android.widget.ScrollView;
 
 import com.orhanobut.logger.Logger;
 
@@ -17,7 +14,6 @@ import project.test.mobile.BaseActivity;
 import project.test.mobile.R;
 import project.test.mobile.models.SearchResultImage;
 import project.test.mobile.utils.Injection;
-import project.test.mobile.utils.TextUtils;
 
 /**
  * Created by Mayur on 17-10-2017.
@@ -29,10 +25,9 @@ public class GalleryActivity extends BaseActivity
     @BindView(R.id.rvImages)
     RecyclerView rvImages;
 
-    ImagesAdapter imagesAdapter;
-    GridLayoutManager layoutManager;
-    StaggeredGridLayoutManager layoutManager1;
-    GalleryActivityContract.GalleryPresenter presenter;
+    private ImagesAdapter imagesAdapter;
+    private GridLayoutManager layoutManager;
+    private GalleryActivityContract.GalleryPresenter presenter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -46,6 +41,7 @@ public class GalleryActivity extends BaseActivity
     @Override
     public void initView() {
         Logger.i("gallery initView and get images");
+        setupImages();
         presenter.getImages();
     }
 
@@ -64,6 +60,29 @@ public class GalleryActivity extends BaseActivity
 
     }
 
+    private void setupImages() {
+        imagesAdapter = new ImagesAdapter(this, new ArrayList<SearchResultImage>());
+        layoutManager = new GridLayoutManager(this, 2);
+        rvImages.setAdapter(imagesAdapter);
+        rvImages.setLayoutManager(layoutManager);
+        rvImages.setHasFixedSize(true);
+        rvImages.setNestedScrollingEnabled(false);
+
+        rvImages.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                Logger.i("SCROLLDEBUG onScrollStateChanged");
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                Logger.i("SCROLLDEBUG onScrolled");
+            }
+        });
+    }
+
     @Override
     public void showImages(ArrayList<SearchResultImage> images) {
         Logger.i("showing images");
@@ -80,27 +99,7 @@ public class GalleryActivity extends BaseActivity
             }
         }
 
-        imagesAdapter = new ImagesAdapter(this, cleanImages);
-//        imagesAdapter.setHasStableIds(true);
-        layoutManager = new GridLayoutManager(this, 2);
-//        layoutManager1 = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
-//        layoutManager1.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_NONE);
-        rvImages.setAdapter(imagesAdapter);
-        rvImages.setLayoutManager(layoutManager);
-        rvImages.setHasFixedSize(true);
-        rvImages.setNestedScrollingEnabled(false);
-//        rvImages.addOnScrollListener(new RecyclerView.OnScrollListener() {
-//            @Override
-//            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-//                super.onScrollStateChanged(recyclerView, newState);
-//                Logger.i("SCROLLDEBUG onScrollStateChanged");
-//            }
-//
-//            @Override
-//            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-//                super.onScrolled(recyclerView, dx, dy);
-//                Logger.i("SCROLLDEBUG onScrolled");
-//            }
-//        });
+        imagesAdapter.addItems(cleanImages);
+        imagesAdapter.notifyDataSetChanged();
     }
 }
