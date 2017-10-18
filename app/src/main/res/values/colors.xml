@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#F4F4F4</color>
-    <color name="colorPrimaryDark">#F4F4F4</color>
+    <color name="colorPrimary">#e8e8e8</color>
+    <color name="colorPrimaryDark">#191919</color>
     <color name="colorAccent">#5F6EF4</color>
     <color name="colorText">#92939B</color>
     <color name="colorTextFaded">#DCDCDC</color>
+    <color name="colorChipFaded">#f0f0f0</color>
     <color name="colorTextAccent">@color/colorAccent</color>
     <color name="colorCardBackGround">#FFFFFF</color>
 </resources>
