@@ -46,11 +46,9 @@ public class GalleryPresenterImpl implements GalleryActivityContract.GalleryPres
     }
 
     @Override
-    public void getImages() {
+    public void getImages(int pageNumber) {
         Logger.i("presenter getting Images");
-
-        // FIXME get page number from recyclerview
-        repository.getImages(1)
+        repository.getImages(pageNumber)
                 .subscribeOn(Injection.provideSchedulerProvider().io())
                 .observeOn(Injection.provideSchedulerProvider().ui())
                 .subscribe(new Observer<ImgurAPIResponse<SearchResultImage>>() {
@@ -60,15 +58,12 @@ public class GalleryPresenterImpl implements GalleryActivityContract.GalleryPres
                     }
 
                     @Override
-                    public void onNext(@NonNull
-                                               ImgurAPIResponse<SearchResultImage>
-                                               APIResponse) {
+                    public void onNext(@NonNull ImgurAPIResponse<SearchResultImage> APIResponse) {
                         Logger.i("Successfully loaded images");
                         if (view != null) {
                             ArrayList<SearchResultImage> images = APIResponse.getData();
                             view.showImages(images);
                         }
-
                     }
 
                     @Override

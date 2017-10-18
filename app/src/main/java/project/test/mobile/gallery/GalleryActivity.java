@@ -13,6 +13,7 @@ import butterknife.BindView;
 import project.test.mobile.BaseActivity;
 import project.test.mobile.R;
 import project.test.mobile.models.SearchResultImage;
+import project.test.mobile.utils.EndlessRecyclerViewScrollListener;
 import project.test.mobile.utils.Injection;
 
 /**
@@ -28,6 +29,7 @@ public class GalleryActivity extends BaseActivity
     private ImagesAdapter imagesAdapter;
     private GridLayoutManager layoutManager;
     private GalleryActivityContract.GalleryPresenter presenter;
+    private EndlessRecyclerViewScrollListener scrollListener;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -42,7 +44,7 @@ public class GalleryActivity extends BaseActivity
     public void initView() {
         Logger.i("gallery initView and get images");
         setupImages();
-        presenter.getImages();
+        presenter.getImages(1);
     }
 
     @Override
@@ -67,20 +69,13 @@ public class GalleryActivity extends BaseActivity
         rvImages.setLayoutManager(layoutManager);
         rvImages.setHasFixedSize(true);
         rvImages.setNestedScrollingEnabled(false);
-
-        rvImages.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        scrollListener = new EndlessRecyclerViewScrollListener(layoutManager) {
             @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-                Logger.i("SCROLLDEBUG onScrollStateChanged");
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                presenter.getImages(page + 1);
             }
-
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                Logger.i("SCROLLDEBUG onScrolled");
-            }
-        });
+        };
+        rvImages.addOnScrollListener(scrollListener);
     }
 
     @Override
@@ -92,6 +87,8 @@ public class GalleryActivity extends BaseActivity
             if (image.getType() == null) {
                 ArrayList<SearchResultImage> subImages = image.getImages();
 
+                // if image type == null
+                // display an image from subImages
                 if (subImages != null && subImages.size() > 0) {
                     SearchResultImage image1 = subImages.get(0);
                     cleanImages.add(image1);

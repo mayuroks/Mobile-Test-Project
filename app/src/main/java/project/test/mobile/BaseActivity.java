@@ -1,5 +1,6 @@
 package project.test.mobile;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
@@ -16,6 +17,7 @@ import butterknife.ButterKnife;
 
 public class BaseActivity extends AppCompatActivity {
     RelativeLayout baseLayout;
+    public Context context = this;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

@@ -17,7 +17,7 @@ public interface GalleryActivityContract {
     }
 
     interface GalleryPresenter extends BasePresenter {
-        void getImages();
+        void getImages(int pageNumber);
     }
 
 }
