@@ -7,6 +7,8 @@ import com.orhanobut.hawk.Hawk;
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.Logger;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
+
 /**
  * Created by Mayur on 18-10-2017.
  */
@@ -24,6 +26,11 @@ public class BaseApplication extends MultiDexApplication {
                 return BuildConfig.DEBUG;
             }
         });
+
+        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
+                        .setDefaultFontPath("fonts/Lato-Regular.ttf")
+                        .setFontAttrId(R.attr.fontPath)
+                        .build());
 
         Hawk.init(this);
     }
