@@ -48,4 +48,7 @@ dependencies {
     compile 'jp.wasabeef:recyclerview-animators:2.2.7'
     compile 'com.tapadoo.android:alerter:2.0.1'
     compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'jp.wasabeef:picasso-transformations:2.1.2'
+    // If you want to use the GPU Filters
+    compile 'jp.co.cyberagent.android.gpuimage:gpuimage-library:1.4.1'
 }

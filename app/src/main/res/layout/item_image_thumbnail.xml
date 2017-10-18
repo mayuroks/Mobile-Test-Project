@@ -2,13 +2,20 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:layout_height="wrap_content" >
 
     <ImageView
         android:id="@+id/ivImageThumb"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:src="@mipmap/ic_launcher_round"
         android:padding="10dp"/>
+
+    <TextView
+        android:id="@+id/tvDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:visibility="gone"/>
 
 </RelativeLayout>

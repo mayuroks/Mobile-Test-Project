@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 
 import com.orhanobut.logger.Logger;
 
@@ -28,6 +29,7 @@ public class GalleryActivity extends BaseActivity
 
     ImagesAdapter imagesAdapter;
     GridLayoutManager layoutManager;
+    StaggeredGridLayoutManager layoutManager1;
     GalleryActivityContract.GalleryPresenter presenter;
 
     @Override
@@ -66,16 +68,23 @@ public class GalleryActivity extends BaseActivity
         ArrayList<SearchResultImage> cleanImages = new ArrayList<>();
 
         for (SearchResultImage image : images) {
-            if (TextUtils.isValidString(image.getType()) &&
-                    image.getType() != null) {
-                cleanImages.add(image);
+            if (image.getType() == null) {
+                ArrayList<SearchResultImage> subImages = image.getImages();
+
+                if (subImages != null && subImages.size() > 0) {
+                    SearchResultImage image1 = subImages.get(0);
+                    cleanImages.add(image1);
+                }
             }
         }
 
         imagesAdapter = new ImagesAdapter(this, cleanImages);
         layoutManager = new GridLayoutManager(this, 2);
+//        layoutManager1 = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
+//        layoutManager1.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_NONE);
         rvImages.setAdapter(imagesAdapter);
         rvImages.setLayoutManager(layoutManager);
+        rvImages.setHasFixedSize(true);
         rvImages.setNestedScrollingEnabled(false);
     }
 }
