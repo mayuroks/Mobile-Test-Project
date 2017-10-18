@@ -2,6 +2,7 @@
 <resources>
     <dimen name="margin_left">30dp</dimen>
     <dimen name="margin_right">30dp</dimen>
+    <dimen name="margin_top">30dp</dimen>
 
     <!-- Text sizes -->
     <dimen name="xlarge">32sp</dimen>
