@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.orhanobut.logger.Logger;
 import com.squareup.picasso.Picasso;
 
@@ -56,12 +57,12 @@ public class ImagesAdapter extends RecyclerView.Adapter<ImagesAdapter.ViewHolder
                         CropTransformation.GravityVertical.TOP))
                 .into(holder.ivImageThumb);
 
-        String idPrefix = "id: " + image.getId() + " ";
-        if (TextUtils.isValidString(image.getTitle())) {
-            holder.tvDescription.setText(idPrefix + image.getTitle());
-        } else {
-            holder.tvDescription.setText(idPrefix + "Bad Title");
-        }
+//        String idPrefix = "id: " + image.getId() + " ";
+//        if (TextUtils.isValidString(image.getTitle())) {
+//            holder.tvDescription.setText(idPrefix + image.getTitle());
+//        } else {
+//            holder.tvDescription.setText(idPrefix + "Bad Title");
+//        }
 
         // FIXME remove this
         holder.ivImageThumb.setOnClickListener(new View.OnClickListener() {

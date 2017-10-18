@@ -5,6 +5,8 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.view.View;
+import android.widget.ScrollView;
 
 import com.orhanobut.logger.Logger;
 
@@ -79,6 +81,7 @@ public class GalleryActivity extends BaseActivity
         }
 
         imagesAdapter = new ImagesAdapter(this, cleanImages);
+//        imagesAdapter.setHasStableIds(true);
         layoutManager = new GridLayoutManager(this, 2);
 //        layoutManager1 = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
 //        layoutManager1.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_NONE);
@@ -86,5 +89,18 @@ public class GalleryActivity extends BaseActivity
         rvImages.setLayoutManager(layoutManager);
         rvImages.setHasFixedSize(true);
         rvImages.setNestedScrollingEnabled(false);
+//        rvImages.addOnScrollListener(new RecyclerView.OnScrollListener() {
+//            @Override
+//            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+//                super.onScrollStateChanged(recyclerView, newState);
+//                Logger.i("SCROLLDEBUG onScrollStateChanged");
+//            }
+//
+//            @Override
+//            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+//                super.onScrolled(recyclerView, dx, dy);
+//                Logger.i("SCROLLDEBUG onScrolled");
+//            }
+//        });
     }
 }

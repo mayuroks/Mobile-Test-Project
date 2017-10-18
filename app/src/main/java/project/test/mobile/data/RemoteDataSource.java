@@ -28,7 +28,7 @@ public class RemoteDataSource implements DataSource {
     }
 
     @Override
-    public Observable<ImgurAPIResponse<SearchResultImage>> getImages() {
-        return service.getImages();
+    public Observable<ImgurAPIResponse<SearchResultImage>> getImages(int pageNumber) {
+        return service.getImages(pageNumber);
     }
 }

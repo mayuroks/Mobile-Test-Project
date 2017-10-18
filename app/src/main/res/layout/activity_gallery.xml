@@ -5,30 +5,22 @@
     android:layout_height="match_parent"
     android:background="@color/colorCardBackGround">
 
-    <ScrollView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:animateLayoutChanges="true"
-        android:overScrollMode="never"
-        android:scrollbars="none">
+        android:layout_height="wrap_content">
 
-        <RelativeLayout
+        <TextView
+            style="@style/XLargeTextAccentBold"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:text="Mayur Rokade" />
 
-            <TextView
-                style="@style/XLargeTextAccentBold"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Mayur Rokade" />
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rvImages"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_top"
-                android:overScrollMode="never"
-                tools:listitem="@layout/item_image_thumbnail" />
-        </RelativeLayout>
-    </ScrollView>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rvImages"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_top"
+            android:overScrollMode="never"
+            tools:listitem="@layout/item_image_thumbnail" />
+    </RelativeLayout>
 </RelativeLayout>

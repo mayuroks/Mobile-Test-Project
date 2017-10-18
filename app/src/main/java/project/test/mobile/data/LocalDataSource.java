@@ -25,7 +25,7 @@ public class LocalDataSource implements DataSource {
     }
 
     @Override
-    public Observable<ImgurAPIResponse<SearchResultImage>> getImages() {
+    public Observable<ImgurAPIResponse<SearchResultImage>> getImages(int pageNumber) {
         return null;
     }
 }

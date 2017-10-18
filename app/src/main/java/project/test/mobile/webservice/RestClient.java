@@ -12,7 +12,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 
 public class RestClient {
-    private static final String API_BASE_URL = "https://api.imgur.com/";
+    private static final String API_BASE_URL = "https://api.imgur.com/3/";
     private static HttpLoggingInterceptor logging = getLoggerInterceptor();
     private static OkHttpClient client = new OkHttpClient.Builder()
             .addInterceptor(logging)

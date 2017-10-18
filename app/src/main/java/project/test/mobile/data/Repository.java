@@ -32,7 +32,7 @@ public class Repository implements DataSource {
     }
 
     @Override
-    public Observable<ImgurAPIResponse<SearchResultImage>> getImages() {
-        return remoteDataSource.getImages();
+    public Observable<ImgurAPIResponse<SearchResultImage>> getImages(int pageNumber) {
+        return remoteDataSource.getImages(pageNumber);
     }
 }

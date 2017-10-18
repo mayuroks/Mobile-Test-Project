@@ -9,5 +9,5 @@ import project.test.mobile.models.SearchResultImage;
  */
 
 public interface DataSource {
-    Observable<ImgurAPIResponse<SearchResultImage>> getImages();
+    Observable<ImgurAPIResponse<SearchResultImage>> getImages(int pageNumber);
 }
