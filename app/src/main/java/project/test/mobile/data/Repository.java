@@ -2,6 +2,10 @@ package project.test.mobile.data;
 
 import android.support.annotation.NonNull;
 
+import io.reactivex.Observable;
+import project.test.mobile.models.ImgurAPIResponse;
+import project.test.mobile.models.SearchResultImage;
+
 /**
  * Created by Mayur on 18-10-2017.
  */
@@ -25,5 +29,10 @@ public class Repository implements DataSource {
         }
 
         return INSTANCE;
+    }
+
+    @Override
+    public Observable<ImgurAPIResponse<SearchResultImage>> getImages(int pageNumber) {
+        return remoteDataSource.getImages(pageNumber);
     }
 }

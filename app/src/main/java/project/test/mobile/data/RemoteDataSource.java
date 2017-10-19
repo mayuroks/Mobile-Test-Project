@@ -1,5 +1,8 @@
 package project.test.mobile.data;
 
+import io.reactivex.Observable;
+import project.test.mobile.models.ImgurAPIResponse;
+import project.test.mobile.models.SearchResultImage;
 import project.test.mobile.webservice.APIService;
 import project.test.mobile.webservice.RestClient;
 
@@ -22,5 +25,10 @@ public class RemoteDataSource implements DataSource {
         }
 
         return INSTANCE;
+    }
+
+    @Override
+    public Observable<ImgurAPIResponse<SearchResultImage>> getImages(int pageNumber) {
+        return service.getImages(pageNumber);
     }
 }

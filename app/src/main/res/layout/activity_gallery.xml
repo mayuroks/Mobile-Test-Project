@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/cvProfile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorCardBackGround"
+        app:cardCornerRadius="@dimen/card_corner_radius"
+        app:cardElevation="4dp"
+        app:cardUseCompatPadding="true"
+        android:visibility="visible">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_top"
+            android:layout_marginBottom="@dimen/margin_bottom">
+
+            <TextView
+                android:id="@+id/tvName"
+                style="@style/XLargeTextRegular"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ivProfile"
+                android:text="New User"
+                android:textAlignment="center" />
+
+            <TextView
+                android:id="@+id/tvTimer"
+                style="@style/LargeTextAccentBold"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvName"
+                android:layout_marginTop="4dp"
+                tools:text="07:28:30:367"
+                android:textAlignment="center" />
+
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/cvProfile"
+        android:background="@color/colorCardBackGround"
+        app:cardCornerRadius="@dimen/card_corner_radius"
+        app:cardElevation="4dp"
+        app:cardUseCompatPadding="true">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RelativeLayout
+                android:id="@+id/rlInfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tvPicturesOf"
+                    style="@style/NormalTextBold"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/margin_left_half"
+                    android:paddingTop="4dp"
+                    android:paddingBottom="4dp"
+                    android:text="Pictures of" />
+
+                <TextView
+                    style="@style/NormalTextAccentBold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="4dp"
+                    android:paddingBottom="4dp"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:layout_marginRight="@dimen/margin_right_half"
+                    android:layout_centerVertical="true"
+                    android:text="cats"
+                    android:layout_alignParentRight="true"
+                    android:background="@drawable/bg_chip"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@+id/tvPicturesOf"
+                    android:layout_marginTop="@dimen/margin_top"
+                    android:layout_marginLeft="@dimen/margin_left_half"
+                    android:layout_marginRight="@dimen/margin_right_half"
+                    android:background="@color/colorTextFaded" />
+            </RelativeLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rvImages"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:overScrollMode="never"
+                android:paddingTop="4dp"
+                android:layout_below="@+id/rlInfo"
+                tools:listitem="@layout/item_image_thumbnail" />
+
+            <com.wang.avi.AVLoadingIndicatorView
+                android:id="@+id/avLoader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                app:indicatorColor="@color/colorAccent"
+                app:indicatorName="com.wang.avi.indicators.BallClipRotateIndicator"/>
+
+            <TextView
+                style="@style/NormalTextAccentBold"
+                android:id="@+id/tvErrorMsg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:textAlignment="center"
+                android:text="Couldn't load images.\nTap here to refresh"/>
+
+        </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
+
+</RelativeLayout>
