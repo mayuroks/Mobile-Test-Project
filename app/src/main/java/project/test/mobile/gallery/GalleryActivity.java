@@ -6,18 +6,14 @@ import android.graphics.Point;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Display;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.orhanobut.logger.Logger;
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.Picasso;
 import com.wang.avi.AVLoadingIndicatorView;
 
 import java.util.ArrayList;
@@ -25,7 +21,6 @@ import java.util.Calendar;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import jp.wasabeef.picasso.transformations.CropCircleTransformation;
 import project.test.mobile.BaseActivity;
 import project.test.mobile.R;
 import project.test.mobile.models.SearchResultImage;
@@ -178,6 +173,9 @@ public class GalleryActivity extends BaseActivity
                     SearchResultImage image1 = subImages.get(0);
                     cleanImages.add(image1);
                 }
+            } else if (!image.getType().equalsIgnoreCase("image/gif")) {
+                // Ignoring gifs the app focuses on images
+                cleanImages.add(image);
             }
         }
 
@@ -185,7 +183,6 @@ public class GalleryActivity extends BaseActivity
         imagesAdapter.addItems(cleanImages);
         imagesAdapter.notifyDataSetChanged();
         Logger.i("RECYCDEBUG position " + position);
-//        imagesAdapter.notifyItemRangeChanged(position, cleanImages.size());
     }
 
     @Override
