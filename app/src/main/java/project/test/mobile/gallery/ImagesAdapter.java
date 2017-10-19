@@ -1,6 +1,15 @@
 package project.test.mobile.gallery;
 
 import android.content.Context;
+import android.graphics.Canvas;
+import android.graphics.ColorFilter;
+import android.graphics.PixelFormat;
+import android.graphics.drawable.Animatable;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
+import android.support.annotation.IntRange;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.annotation.UiThread;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -8,21 +17,25 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.daimajia.numberprogressbar.NumberProgressBar;
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.drawee.controller.ControllerListener;
+import com.facebook.drawee.drawable.ProgressBarDrawable;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.facebook.imagepipeline.common.ResizeOptions;
+import com.facebook.imagepipeline.image.ImageInfo;
+import com.facebook.imagepipeline.request.ImageRequest;
+import com.facebook.imagepipeline.request.ImageRequestBuilder;
 import com.orhanobut.logger.Logger;
-import com.squareup.picasso.Picasso;
+import com.wang.avi.AVLoadingIndicatorView;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import jp.wasabeef.picasso.transformations.CropSquareTransformation;
-import jp.wasabeef.picasso.transformations.CropTransformation;
 import project.test.mobile.R;
 import project.test.mobile.models.SearchResultImage;
-import project.test.mobile.utils.TextUtils;
 
 /**
  * Created by Mayur on 18-10-2017.
@@ -46,33 +59,52 @@ public class ImagesAdapter extends RecyclerView.Adapter<ImagesAdapter.ViewHolder
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, int position) {
         final SearchResultImage image = items.get(position);
         Logger.i("IMAGEDEBUG " + image.getLink());
         Logger.i("IMAGEDEBUG " + image.getType());
         Logger.i("IMAGEDEBUG " + image.getHeight() + " x " + image.getWidth());
-        Picasso.with(context)
-                .load(image.getLink())
-                .transform(new CropTransformation(300, 300,
-                        CropTransformation.GravityHorizontal.CENTER,
-                        CropTransformation.GravityVertical.TOP))
-                .into(holder.ivImageThumb);
 
-//        String idPrefix = "id: " + image.getId() + " ";
-//        if (TextUtils.isValidString(image.getTitle())) {
-//            holder.tvDescription.setText(idPrefix + image.getTitle());
-//        } else {
-//            holder.tvDescription.setText(idPrefix + "Bad Title");
-//        }
+        Uri uri = Uri.parse(image.getLink());
+        ImageRequest request = ImageRequestBuilder.newBuilderWithSource(uri)
+                .setResizeOptions(new ResizeOptions(300, 300))
+                .build();
 
-        // FIXME remove this
-        holder.ivImageThumb.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String info = "id: " + image.getId();
-                Toast.makeText(context, info, Toast.LENGTH_LONG).show();
-            }
-        });
+        holder.sdvThumbnail.setController(Fresco.newDraweeControllerBuilder()
+                .setOldController(holder.sdvThumbnail.getController())
+                .setTapToRetryEnabled(true)
+                .setImageRequest(request)
+                .setControllerListener(new ControllerListener<ImageInfo>() {
+                    @Override
+                    public void onSubmit(String id, Object callerContext) {
+                    }
+
+                    @Override
+                    public void onFinalImageSet(String id, ImageInfo imageInfo, Animatable animatable) {
+                    }
+
+                    @Override
+                    public void onIntermediateImageSet(String id, ImageInfo imageInfo) {
+                    }
+
+                    @Override
+                    public void onIntermediateImageFailed(String id, Throwable throwable) {
+                    }
+
+                    @Override
+                    public void onFailure(String id, Throwable throwable) {
+                    }
+
+                    @Override
+                    public void onRelease(String id) {
+                    }
+                })
+                .build());
+
+        holder.sdvThumbnail
+                .getHierarchy()
+                .setProgressBarImage(new ProgressBarDrawable());
+
     }
 
     @Override
@@ -82,8 +114,8 @@ public class ImagesAdapter extends RecyclerView.Adapter<ImagesAdapter.ViewHolder
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.ivImageThumb)
-        ImageView ivImageThumb;
+        @BindView(R.id.sdvThumbnail)
+        SimpleDraweeView sdvThumbnail;
 
         @BindView(R.id.tvDescription)
         TextView tvDescription;
@@ -98,4 +130,5 @@ public class ImagesAdapter extends RecyclerView.Adapter<ImagesAdapter.ViewHolder
     public void addItems(ArrayList<SearchResultImage> items) {
         this.items.addAll(items);
     }
+
 }

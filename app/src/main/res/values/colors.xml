@@ -8,4 +8,5 @@
     <color name="colorChipFaded">#f0f0f0</color>
     <color name="colorTextAccent">@color/colorAccent</color>
     <color name="colorCardBackGround">#FFFFFF</color>
+    <color name="colorError">#ff1744</color>
 </resources>
