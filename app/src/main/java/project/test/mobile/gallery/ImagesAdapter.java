@@ -105,14 +105,6 @@ public class ImagesAdapter extends RecyclerView.Adapter<ImagesAdapter.ViewHolder
                 .getHierarchy()
                 .setProgressBarImage(new ProgressBarDrawable());
 
-        // FIXME remove this
-//        holder.ivImageThumb.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                String info = "id: " + image.getId();
-//                Toast.makeText(context, info, Toast.LENGTH_LONG).show();
-//            }
-//        });
     }
 
     @Override
