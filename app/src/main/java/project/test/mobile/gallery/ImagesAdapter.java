@@ -1,8 +1,15 @@
 package project.test.mobile.gallery;
 
 import android.content.Context;
+import android.graphics.Canvas;
+import android.graphics.ColorFilter;
+import android.graphics.PixelFormat;
 import android.graphics.drawable.Animatable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.support.annotation.IntRange;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.annotation.UiThread;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.daimajia.numberprogressbar.NumberProgressBar;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.controller.ControllerListener;
 import com.facebook.drawee.drawable.ProgressBarDrawable;
@@ -20,6 +28,7 @@ import com.facebook.imagepipeline.image.ImageInfo;
 import com.facebook.imagepipeline.request.ImageRequest;
 import com.facebook.imagepipeline.request.ImageRequestBuilder;
 import com.orhanobut.logger.Logger;
+import com.wang.avi.AVLoadingIndicatorView;
 
 import java.util.ArrayList;
 
@@ -63,6 +72,7 @@ public class ImagesAdapter extends RecyclerView.Adapter<ImagesAdapter.ViewHolder
 
         holder.sdvThumbnail.setController(Fresco.newDraweeControllerBuilder()
                 .setOldController(holder.sdvThumbnail.getController())
+                .setTapToRetryEnabled(true)
                 .setImageRequest(request)
                 .setControllerListener(new ControllerListener<ImageInfo>() {
                     @Override
@@ -90,6 +100,10 @@ public class ImagesAdapter extends RecyclerView.Adapter<ImagesAdapter.ViewHolder
                     }
                 })
                 .build());
+
+        holder.sdvThumbnail
+                .getHierarchy()
+                .setProgressBarImage(new ProgressBarDrawable());
 
         // FIXME remove this
 //        holder.ivImageThumb.setOnClickListener(new View.OnClickListener() {
@@ -124,4 +138,5 @@ public class ImagesAdapter extends RecyclerView.Adapter<ImagesAdapter.ViewHolder
     public void addItems(ArrayList<SearchResultImage> items) {
         this.items.addAll(items);
     }
+
 }
