@@ -3,10 +3,17 @@ package project.test.mobile;
 import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
 
+import com.facebook.common.logging.FLog;
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.imagepipeline.core.ImagePipelineConfig;
+import com.facebook.imagepipeline.listener.RequestListener;
+import com.facebook.imagepipeline.listener.RequestLoggingListener;
 import com.orhanobut.hawk.Hawk;
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.Logger;
+
+import java.util.HashSet;
+import java.util.Set;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
@@ -35,6 +42,14 @@ public class BaseApplication extends MultiDexApplication {
                         .setFontAttrId(R.attr.fontPath)
                         .build());
 
-        Fresco.initialize(this);
+        Set<RequestListener> requestListeners = new HashSet<>();
+        requestListeners.add(new RequestLoggingListener());
+        ImagePipelineConfig config = ImagePipelineConfig.newBuilder(this)
+                // other setters
+                .setRequestListeners(requestListeners)
+                .build();
+        Fresco.initialize(this, config);
+        FLog.setMinimumLoggingLevel(FLog.VERBOSE);
+//        Fresco.initialize(this);
     }
 }

@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -121,10 +122,14 @@ public class GalleryActivity extends BaseActivity
         rvImages.setAdapter(imagesAdapter);
         rvImages.setLayoutManager(layoutManager);
         rvImages.setHasFixedSize(true);
+        rvImages.setItemViewCacheSize(40);
+        rvImages.setDrawingCacheEnabled(true);
+        rvImages.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
         rvImages.setNestedScrollingEnabled(false);
         scrollListener = new EndlessRecyclerViewScrollListener(layoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                Logger.i("loaded page " + Integer.toString(page));
                 presenter.getImages(page + 1);
             }
         };
@@ -149,8 +154,11 @@ public class GalleryActivity extends BaseActivity
             }
         }
 
+        int position = imagesAdapter.getItemCount();
         imagesAdapter.addItems(cleanImages);
         imagesAdapter.notifyDataSetChanged();
+        Logger.i("RECYCDEBUG position " + position);
+//        imagesAdapter.notifyItemRangeChanged(position, cleanImages.size());
     }
 
     @Override
