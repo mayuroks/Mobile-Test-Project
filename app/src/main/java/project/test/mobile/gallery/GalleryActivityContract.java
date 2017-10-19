@@ -14,6 +14,8 @@ public interface GalleryActivityContract {
 
     interface GalleryView extends BaseView<GalleryPresenter> {
         void showImages(ArrayList<SearchResultImage> images);
+
+        void setCurrentPage(int page);
     }
 
     interface GalleryPresenter extends BasePresenter {

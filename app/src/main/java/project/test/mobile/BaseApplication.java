@@ -25,10 +25,9 @@ public class BaseApplication extends MultiDexApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-
         MultiDex.install(this);
-
         Hawk.init(this);
+        Fresco.initialize(this);
 
         Logger.addLogAdapter(new AndroidLogAdapter() {
             @Override
@@ -42,14 +41,5 @@ public class BaseApplication extends MultiDexApplication {
                         .setFontAttrId(R.attr.fontPath)
                         .build());
 
-        Set<RequestListener> requestListeners = new HashSet<>();
-        requestListeners.add(new RequestLoggingListener());
-        ImagePipelineConfig config = ImagePipelineConfig.newBuilder(this)
-                // other setters
-                .setRequestListeners(requestListeners)
-                .build();
-        Fresco.initialize(this, config);
-        FLog.setMinimumLoggingLevel(FLog.VERBOSE);
-//        Fresco.initialize(this);
     }
 }

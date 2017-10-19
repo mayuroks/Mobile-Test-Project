@@ -46,8 +46,9 @@ public class GalleryPresenterImpl implements GalleryActivityContract.GalleryPres
     }
 
     @Override
-    public void getImages(int pageNumber) {
+    public void getImages(final int pageNumber) {
         Logger.i("presenter getting Images");
+        view.showProgress();
         repository.getImages(pageNumber)
                 .subscribeOn(Injection.provideSchedulerProvider().io())
                 .observeOn(Injection.provideSchedulerProvider().ui())
@@ -63,6 +64,7 @@ public class GalleryPresenterImpl implements GalleryActivityContract.GalleryPres
                         if (view != null) {
                             ArrayList<SearchResultImage> images = APIResponse.getData();
                             view.showImages(images);
+                            view.hideProgress();
                         }
                     }
 
@@ -70,6 +72,8 @@ public class GalleryPresenterImpl implements GalleryActivityContract.GalleryPres
                     public void onError(@NonNull Throwable e) {
                         Logger.i("error in loading images");
                         e.printStackTrace();
+                        view.hideProgress();
+                        view.setCurrentPage(pageNumber);
                     }
 
                     @Override

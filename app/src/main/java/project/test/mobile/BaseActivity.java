@@ -14,6 +14,8 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 /**
  * Created by Mayur on 18-10-2017.
+ * This is an Abstract activity to be
+ * inherited by rest of the activities
  */
 
 public class BaseActivity extends AppCompatActivity {

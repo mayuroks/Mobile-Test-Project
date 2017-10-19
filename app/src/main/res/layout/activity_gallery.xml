@@ -69,6 +69,8 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="@dimen/margin_left_half"
+                    android:paddingTop="4dp"
+                    android:paddingBottom="4dp"
                     android:text="Pictures of" />
 
                 <TextView
@@ -103,6 +105,23 @@
                 android:paddingTop="4dp"
                 android:layout_below="@+id/rlInfo"
                 tools:listitem="@layout/item_image_thumbnail" />
+
+            <com.wang.avi.AVLoadingIndicatorView
+                android:id="@+id/avLoader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                app:indicatorColor="@color/colorAccent"
+                app:indicatorName="com.wang.avi.indicators.BallClipRotateIndicator"/>
+
+            <TextView
+                style="@style/NormalTextAccentBold"
+                android:id="@+id/tvErrorMsg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:textAlignment="center"
+                android:text="Couldn't load images.\nTap here to refresh"/>
 
         </RelativeLayout>
 

@@ -2,24 +2,29 @@ package project.test.mobile.gallery;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Display;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.orhanobut.logger.Logger;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
+import com.wang.avi.AVLoadingIndicatorView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 import jp.wasabeef.picasso.transformations.CropCircleTransformation;
 import project.test.mobile.BaseActivity;
 import project.test.mobile.R;
@@ -45,6 +50,12 @@ public class GalleryActivity extends BaseActivity
 
     @BindView(R.id.tvName)
     TextView tvName;
+
+    @BindView(R.id.tvErrorMsg)
+    TextView tvErrorMsg;
+
+    @BindView(R.id.avLoader)
+    AVLoadingIndicatorView avLoader;
 
     private ImagesAdapter imagesAdapter;
     private GridLayoutManager layoutManager;
@@ -83,6 +94,7 @@ public class GalleryActivity extends BaseActivity
             tvName.setText(fullName);
         }
 
+        setupLoader();
         setupImages();
         presenter.getImages(1);
     }
@@ -116,12 +128,17 @@ public class GalleryActivity extends BaseActivity
 
     @Override
     public void showProgress() {
-
+        avLoader.setVisibility(View.VISIBLE);
+        tvErrorMsg.setVisibility(View.GONE);
     }
 
     @Override
     public void hideProgress() {
+        avLoader.setVisibility(View.GONE);
 
+        if (imagesAdapter.getItemCount() == 0) {
+            tvErrorMsg.setVisibility(View.VISIBLE);
+        }
     }
 
     private void setupImages() {
@@ -153,8 +170,10 @@ public class GalleryActivity extends BaseActivity
             if (image.getType() == null) {
                 ArrayList<SearchResultImage> subImages = image.getImages();
 
-                // if image type == null
-                // display an image from subImages
+                /*
+                * if image type == null
+                * display an image from subImages
+                * */
                 if (subImages != null && subImages.size() > 0) {
                     SearchResultImage image1 = subImages.get(0);
                     cleanImages.add(image1);
@@ -170,6 +189,15 @@ public class GalleryActivity extends BaseActivity
     }
 
     @Override
+    public void setCurrentPage(int page) {
+        /*
+        * If there is a network error,
+        * then decrement the page counter
+        * */
+        scrollListener.setCurrentPage(page - 1);
+    }
+
+    @Override
     protected void onPause() {
         super.onPause();
         if (timer != null) {
@@ -182,4 +210,32 @@ public class GalleryActivity extends BaseActivity
         super.onBackPressed();
         overridePendingTransition(R.anim.left_in, R.anim.right_out);
     }
+
+    void setupLoader() {
+        /*
+        * Initializing margin top for
+        * avloader and tvError msg
+        * */
+
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        int width = size.x;
+        int height = size.y;
+        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) avLoader.getLayoutParams();
+        params.topMargin = (int) (height / 3.2);
+        avLoader.setLayoutParams(params);
+        tvErrorMsg.setLayoutParams(params);
+    }
+
+    @OnClick(R.id.tvErrorMsg)
+    public void refresh() {
+        /*
+        * This error will be shown only when
+        * there are 0 items in the gallery
+        * So load images from page 1
+        * */
+        presenter.getImages(1);
+    }
+
 }
