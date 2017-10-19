@@ -60,7 +60,9 @@ public class RegistrationActivity extends BaseActivity {
                     .setBackgroundColorRes(R.color.colorError)
                     .show();
         } else {
-            startActivity(new Intent(context, GalleryActivity.class));
+            Intent intent = GalleryActivity.getIntent(context, fullName);
+            startActivity(intent);
+            overridePendingTransition(R.anim.right_in, R.anim.left_out);
         }
     }
 }

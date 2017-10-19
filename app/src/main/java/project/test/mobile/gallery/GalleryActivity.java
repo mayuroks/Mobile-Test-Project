@@ -1,5 +1,7 @@
 package project.test.mobile.gallery;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.annotation.Nullable;
@@ -24,6 +26,7 @@ import project.test.mobile.R;
 import project.test.mobile.models.SearchResultImage;
 import project.test.mobile.utils.EndlessRecyclerViewScrollListener;
 import project.test.mobile.utils.Injection;
+import project.test.mobile.utils.TextUtils;
 
 /**
  * Created by Mayur on 17-10-2017.
@@ -32,17 +35,30 @@ import project.test.mobile.utils.Injection;
 public class GalleryActivity extends BaseActivity
         implements GalleryActivityContract.GalleryView {
 
+    private static final String FULL_NAME = "fullName";
+
     @BindView(R.id.rvImages)
     RecyclerView rvImages;
 
     @BindView(R.id.tvTimer)
     TextView tvTimer;
 
+    @BindView(R.id.tvName)
+    TextView tvName;
+
     private ImagesAdapter imagesAdapter;
     private GridLayoutManager layoutManager;
     private GalleryActivityContract.GalleryPresenter presenter;
     private EndlessRecyclerViewScrollListener scrollListener;
     private CountDownTimer timer;
+
+    public static Intent getIntent(Context context, String name) {
+        Bundle extras = new Bundle();
+        extras.putString(FULL_NAME, name);
+        Intent intent = new Intent(context, GalleryActivity.class);
+        intent.putExtras(extras);
+        return intent;
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -56,6 +72,17 @@ public class GalleryActivity extends BaseActivity
     @Override
     public void initView() {
         Logger.i("gallery initView and get images");
+        Bundle extras = getIntent().getExtras();
+        String fullName = "";
+
+        if (extras != null) {
+            fullName = extras.getString(FULL_NAME);
+        }
+
+        if (TextUtils.isValidString(fullName)) {
+            tvName.setText(fullName);
+        }
+
         setupImages();
         presenter.getImages(1);
     }
@@ -148,5 +175,11 @@ public class GalleryActivity extends BaseActivity
         if (timer != null) {
             timer.cancel();
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.left_in, R.anim.right_out);
     }
 }
