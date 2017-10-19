@@ -35,9 +35,6 @@ public class GalleryActivity extends BaseActivity
     @BindView(R.id.rvImages)
     RecyclerView rvImages;
 
-    @BindView(R.id.ivProfile)
-    ImageView ivProfile;
-
     @BindView(R.id.tvTimer)
     TextView tvTimer;
 
@@ -59,22 +56,6 @@ public class GalleryActivity extends BaseActivity
     @Override
     public void initView() {
         Logger.i("gallery initView and get images");
-        Picasso.with(context)
-                .load(R.drawable.octocat)
-                .resize(100, 100)
-                .transform(new CropCircleTransformation())
-                .into(ivProfile, new Callback() {
-                    @Override
-                    public void onSuccess() {
-                        ivProfile.setBackground(ContextCompat
-                                .getDrawable(context, R.drawable.bg_circle));
-                    }
-
-                    @Override
-                    public void onError() {
-
-                    }
-                });
         setupImages();
         presenter.getImages(1);
     }

@@ -15,7 +15,7 @@
         app:cardCornerRadius="@dimen/card_corner_radius"
         app:cardElevation="4dp"
         app:cardUseCompatPadding="true"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -23,20 +23,12 @@
             android:layout_marginTop="@dimen/margin_top"
             android:layout_marginBottom="@dimen/margin_bottom">
 
-            <ImageView
-                android:id="@+id/ivProfile"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:src="@mipmap/ic_launcher_round" />
-
             <TextView
                 android:id="@+id/tvName"
                 style="@style/XLargeTextRegular"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/ivProfile"
-                android:layout_marginTop="@dimen/margin_top"
                 android:text="Mayur Rokade"
                 android:textAlignment="center" />
 
