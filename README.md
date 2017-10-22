@@ -6,7 +6,7 @@ The core purpose of this exercise is to build **Gallery with Infinite Scroll** A
  - Getting large images from Imgur via API.
  
 # First Attempt
-Implementing scrollListener, which fires API once end of the list has reached,  was fairly complex. I thought the hardest part was done. Now I just need to get images from Imgur API and display them.
+Implementing scrollListener, which fires API once end of the list has reached,  was fairly complex. I thought the hardest part was done. Now I just need to get images from Imgur API and display them. That was not the case :D.
 
 Using this API,
 ```
@@ -46,10 +46,10 @@ Lets say, on an average, each image  is 500KB in size. If I scroll past 100 imag
 
 That's a **Lot-of-Data** to download while ... scrolling. Once downloaded, the images will be loaded in app memory and would consume 50MB or more. 
 
-This will make the app sluggish and it will definitely go OOM(out-of-memory) pretty quickly.
+This will make the app sluggish and it will go OOM(out-of-memory) pretty quickly.
 
-# How do others do it?
-Lets take Instagram and Facebook for example. They load user images and albums with lots of images. Yet these apps don't consume 50MB data for a few scrolls or feel sluggish or go OOM and crash.
+# How does Facebook or Instagram do it?
+Let's take Instagram and Facebook for example. They load user images and albums with lots of images. Yet these apps don't consume 50MB data for a few scrolls or feel sluggish or go OOM and crash.
 
 After reading this article,
 [Improving Facebook on Android](https://code.facebook.com/posts/485459238254631/improving-facebook-on-android/)
@@ -88,7 +88,7 @@ Gives the options
 
 Though the size is not mentioned, I am pretty sure each of these thumbnails consume around 10KB(I will prove that at the end :D)
 
-# Imgur API problems
+# Imgur API Problems
 The biggest problem wtih Imgur APIs is lack of thumbnails. 
 
 To tackle this, I switched from big images to small images. To get small image, we need to pass a parameter q_size_px=small
@@ -125,24 +125,24 @@ These small images don't have any standard dimensions or a fixed file size. They
 # Efficiently Loading Inefficient Images
 The library that I used to load images is Fresco. This is an image loading library open-sourced by Facebook.
 
-The problem of **Gallery-with-Infinite-Scroll** is actually a production problem for Facebook and Instagram. This one of the reasons why [Facebook open-sourced Fresco](https://code.facebook.com/posts/366199913563917/introducing-fresco-a-new-image-library-for-android/).
+The problem of **Gallery with Infinite Scroll** is actually a production problem for Facebook and Instagram. This one of the reasons why [Facebook open-sourced Fresco](https://code.facebook.com/posts/366199913563917/introducing-fresco-a-new-image-library-for-android/).
 
-I can't optimize Imgur APIs. But I can display the images efficiently and give a smooth scrolling effect to the user.
+I can't optimize the images from Imgur APIs. But I can display these inefficient images efficiently and give a smooth scrolling effect to the user.
 
-Few Android optimizations I did,
-- Rather than reaching the end and firing API to load images, I fire the API few elements before it happens.
-- Downloaded images are cropped and resized 300x300. This gives them a square-thumbnail look
+ Here are few Android optimizations that I did:
+- Instead reaching the end and firing API to load images, I fire the API few elements before it happens.
+- Downloaded images are cropped and resized 300x300. This gives them a square-thumbnail look.
 - Show a progressBar for each image, to indicate that the image is being downloaded.
 - I added rounded corners to the thumbnails, which makes them look a bit cooler.
 
-After doing, these things there was a huge improvement. The app did not consume much memory and it feels quite smooth.
+After doing these things, there was a huge improvement in the UX. The app did not consume much memory and it feels quite smooth.
 
 Still, the app was far from being a perfect solution as compared to Instagram or Facebook.
 
 # Experimenting with Python and Image Resizing
-Rather than optimizing Android app, I decided to build a server side thumbnail cache.
+Rather than optimizing the Android app, I decided to build a server side thumbnail cache.
 
-I download 100 images from Imgur.  Using Pillow, python image library, I generated 300 x 300 thumbnails. I didn't do any quality optimizations on those images. 
+I download 100 images from Imgur.  Using Pillow(python image librar), I generated 300 x 300 thumbnails. I didn't do any quality optimizations on those images. 
 
 **Each of these thumbnails is merely 5KB in size.** I then, hosted all those thumbnails on my Digital Ocean server and served it via Nginx.
 
@@ -153,6 +153,6 @@ With that said, I just changed 4 lines of app code to download images from my se
 # In Conclusion
 Rather than trying to display large images in a gallery, its better to show thumbnails which can be loaded quickly.
 
-On server-side, a thumbnail-cache is very much needed. This includes / low-res / med-res image-cache so that the network doesn't become a bottleneck. Otherwise, there's not much the Android app can do.
+On server-side, a thumbnail-cache is very much needed. This includes low-res / med-res / preview image-cache so that the network doesn't become a bottleneck. Otherwise, there's not much the Android app can do.
 
 For Android side, use a good library like Fresco which will allow you to cache the images on disk. So that, the next time when the same image is requested, it is loaded directly from the disk.
