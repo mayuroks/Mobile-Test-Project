@@ -14,6 +14,7 @@ public class SearchResultImage {
     int height;
     String link;
     ArrayList<SearchResultImage> images;
+    Boolean isPlaceholder = false;
 
     public String getTitle() {
         return title;
@@ -69,5 +70,13 @@ public class SearchResultImage {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public Boolean getPlaceholder() {
+        return isPlaceholder;
+    }
+
+    public void setPlaceholder(Boolean placeholder) {
+        isPlaceholder = placeholder;
     }
 }

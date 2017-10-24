@@ -63,8 +63,8 @@ public class GalleryPresenterImpl implements GalleryActivityContract.GalleryPres
                         Logger.i("Successfully loaded images");
                         if (view != null) {
                             ArrayList<SearchResultImage> images = APIResponse.getData();
-                            view.showImages(images);
                             view.hideProgress();
+                            view.showImages(images);
                         }
                     }
 

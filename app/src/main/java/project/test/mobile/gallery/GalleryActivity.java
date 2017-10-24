@@ -8,11 +8,14 @@ import android.os.CountDownTimer;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.Display;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.imagepipeline.core.ImagePipeline;
 import com.orhanobut.logger.Logger;
 import com.wang.avi.AVLoadingIndicatorView;
 
@@ -49,14 +52,15 @@ public class GalleryActivity extends BaseActivity
     @BindView(R.id.tvErrorMsg)
     TextView tvErrorMsg;
 
-    @BindView(R.id.avLoader)
-    AVLoadingIndicatorView avLoader;
+//    @BindView(R.id.avLoader)
+//    AVLoadingIndicatorView avLoader;
 
     private ImagesAdapter imagesAdapter;
     private GridLayoutManager layoutManager;
     private GalleryActivityContract.GalleryPresenter presenter;
     private EndlessRecyclerViewScrollListener scrollListener;
     private CountDownTimer timer;
+    private int loaderPosition;
 
     public static Intent getIntent(Context context, String name) {
         Bundle extras = new Bundle();
@@ -77,6 +81,13 @@ public class GalleryActivity extends BaseActivity
 
     @Override
     public void initView() {
+
+        // FIXME remove this
+        ImagePipeline imagePipeline = Fresco.getImagePipeline();
+        imagePipeline.clearMemoryCaches();
+        imagePipeline.clearDiskCaches();
+        // FIXME remove this
+
         Logger.i("gallery initView and get images");
         Bundle extras = getIntent().getExtras();
         String fullName = "";
@@ -123,22 +134,42 @@ public class GalleryActivity extends BaseActivity
 
     @Override
     public void showProgress() {
-        avLoader.setVisibility(View.VISIBLE);
+        loaderPosition = imagesAdapter.getItemCount();
+        Logger.i("show progress " + loaderPosition);
+        if (imagesAdapter.getItemCount() == 0 ||
+                imagesAdapter.getLastItem() != null) {
+            // FIXME counter this
+            scrollListener.setAllowedToLoad(false);
+            imagesAdapter.addItem(null);
+            imagesAdapter.notifyDataSetChanged();
+            Logger.i("show progress add placeholder");
+        }
+
+//        avLoader.setVisibility(View.VISIBLE);
         tvErrorMsg.setVisibility(View.GONE);
     }
 
     @Override
     public void hideProgress() {
-        avLoader.setVisibility(View.GONE);
-
-        if (imagesAdapter.getItemCount() == 0) {
-            tvErrorMsg.setVisibility(View.VISIBLE);
-        }
+//        avLoader.setVisibility(View.GONE);
+        imagesAdapter.removeItem(loaderPosition);
+        imagesAdapter.notifyItemRemoved(loaderPosition);
+        Logger.i("show progress remove placeholder");
     }
 
     private void setupImages() {
         imagesAdapter = new ImagesAdapter(this, new ArrayList<SearchResultImage>());
         layoutManager = new GridLayoutManager(this, 2);
+        layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int position) {
+                if (imagesAdapter.isPlaceholder(position)) {
+                    return 2;
+                } else {
+                    return 1;
+                }
+            }
+        });
         rvImages.setAdapter(imagesAdapter);
         rvImages.setLayoutManager(layoutManager);
         rvImages.setHasFixedSize(true);
@@ -150,7 +181,9 @@ public class GalleryActivity extends BaseActivity
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
                 Logger.i("loaded page " + Integer.toString(page));
-                presenter.getImages(page + 1);
+                if (imagesAdapter.getItemCount() > 0) {
+                    presenter.getImages(page + 1);
+                }
             }
         };
         rvImages.addOnScrollListener(scrollListener);
@@ -182,6 +215,11 @@ public class GalleryActivity extends BaseActivity
         int position = imagesAdapter.getItemCount();
         imagesAdapter.addItems(cleanImages);
         imagesAdapter.notifyDataSetChanged();
+        if (imagesAdapter.getItemCount() == 0) {
+            tvErrorMsg.setVisibility(View.VISIBLE);
+        }
+
+        scrollListener.setAllowedToLoad(true);
         Logger.i("RECYCDEBUG position " + position);
     }
 
@@ -219,9 +257,9 @@ public class GalleryActivity extends BaseActivity
         display.getSize(size);
         int width = size.x;
         int height = size.y;
-        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) avLoader.getLayoutParams();
+        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) tvErrorMsg.getLayoutParams();
         params.topMargin = (int) (height / 3.2);
-        avLoader.setLayoutParams(params);
+//        avLoader.setLayoutParams(params);
         tvErrorMsg.setLayoutParams(params);
     }
 
