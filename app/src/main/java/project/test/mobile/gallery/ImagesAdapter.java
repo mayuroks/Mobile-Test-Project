@@ -123,20 +123,6 @@ public class ImagesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         return items.size();
     }
 
-//    public static class ViewHolder extends RecyclerView.ViewHolder {
-//
-//        @BindView(R.id.sdvThumbnail)
-//        SimpleDraweeView sdvThumbnail;
-//
-//        @BindView(R.id.tvDescription)
-//        TextView tvDescription;
-//
-//        public ViewHolder(View itemView) {
-//            super(itemView);
-//            ButterKnife.bind(this, itemView);
-//        }
-//    }
-
     @UiThread
     public void addItems(ArrayList<SearchResultImage> items) {
         this.items.addAll(items);

@@ -8,7 +8,6 @@ import android.os.CountDownTimer;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.Display;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -17,7 +16,6 @@ import android.widget.TextView;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.imagepipeline.core.ImagePipeline;
 import com.orhanobut.logger.Logger;
-import com.wang.avi.AVLoadingIndicatorView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -51,9 +49,6 @@ public class GalleryActivity extends BaseActivity
 
     @BindView(R.id.tvErrorMsg)
     TextView tvErrorMsg;
-
-//    @BindView(R.id.avLoader)
-//    AVLoadingIndicatorView avLoader;
 
     private ImagesAdapter imagesAdapter;
     private GridLayoutManager layoutManager;
@@ -138,20 +133,17 @@ public class GalleryActivity extends BaseActivity
         Logger.i("show progress " + loaderPosition);
         if (imagesAdapter.getItemCount() == 0 ||
                 imagesAdapter.getLastItem() != null) {
-            // FIXME counter this
             scrollListener.setAllowedToLoad(false);
             imagesAdapter.addItem(null);
             imagesAdapter.notifyDataSetChanged();
             Logger.i("show progress add placeholder");
         }
 
-//        avLoader.setVisibility(View.VISIBLE);
         tvErrorMsg.setVisibility(View.GONE);
     }
 
     @Override
     public void hideProgress() {
-//        avLoader.setVisibility(View.GONE);
         imagesAdapter.removeItem(loaderPosition);
         imagesAdapter.notifyItemRemoved(loaderPosition);
         Logger.i("show progress remove placeholder");
@@ -248,8 +240,7 @@ public class GalleryActivity extends BaseActivity
 
     void setupLoader() {
         /*
-        * Initializing margin top for
-        * avloader and tvError msg
+        * Initializing margin top for tvErrorMsg
         * */
 
         Display display = getWindowManager().getDefaultDisplay();
@@ -259,7 +250,6 @@ public class GalleryActivity extends BaseActivity
         int height = size.y;
         RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) tvErrorMsg.getLayoutParams();
         params.topMargin = (int) (height / 3.2);
-//        avLoader.setLayoutParams(params);
         tvErrorMsg.setLayoutParams(params);
     }
 
