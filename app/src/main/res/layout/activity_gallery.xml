@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/colorCardBackGround"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -13,23 +14,23 @@
         android:background="@color/colorCardBackGround"
         android:visibility="visible"
         app:cardCornerRadius="@dimen/card_corner_radius"
-        app:cardElevation="4dp"
-        app:cardUseCompatPadding="true">
+        app:cardElevation="0dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/margin_bottom"
-            android:layout_marginTop="@dimen/margin_top">
+            android:layout_marginTop="@dimen/margin_top"
+            android:layout_marginLeft="@dimen/margin_left">
 
             <TextView
                 android:id="@+id/tvName"
-                style="@style/XLargeTextRegular"
+                style="@style/XLargeTextBold"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/ivProfile"
                 android:text="New User"
-                android:textAlignment="center" />
+                android:textAlignment="textStart" />
 
             <TextView
                 android:id="@+id/tvTimer"
@@ -38,7 +39,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tvName"
                 android:layout_marginTop="4dp"
-                android:textAlignment="center"
+                android:textAlignment="textStart"
                 tools:text="07:28:30:367" />
 
         </RelativeLayout>
@@ -50,12 +51,14 @@
         android:layout_below="@+id/cvProfile"
         android:background="@color/colorCardBackGround"
         app:cardCornerRadius="@dimen/card_corner_radius"
-        app:cardElevation="4dp"
+        app:cardElevation="0dp"
         app:cardUseCompatPadding="true">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_left"
+            android:layout_marginRight="@dimen/margin_right">
 
             <RelativeLayout
                 android:id="@+id/rlInfo"
@@ -68,7 +71,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/margin_left_half"
                     android:paddingBottom="4dp"
                     android:paddingTop="4dp"
                     android:text="Pictures of" />
@@ -79,7 +81,6 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="@dimen/margin_right_half"
                     android:background="@drawable/bg_chip"
                     android:paddingBottom="4dp"
                     android:paddingLeft="16dp"
@@ -91,8 +92,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_below="@+id/tvPicturesOf"
-                    android:layout_marginLeft="@dimen/margin_left_half"
-                    android:layout_marginRight="@dimen/margin_right_half"
                     android:layout_marginTop="@dimen/margin_top"
                     android:background="@color/colorTextFaded" />
             </RelativeLayout>
@@ -103,7 +102,7 @@
                 android:layout_height="match_parent"
                 android:layout_below="@+id/rlInfo"
                 android:overScrollMode="never"
-                android:paddingTop="4dp"
+                android:layout_marginTop="@dimen/margin_top_half"
                 tools:listitem="@layout/item_image_thumbnail" />
 
             <TextView

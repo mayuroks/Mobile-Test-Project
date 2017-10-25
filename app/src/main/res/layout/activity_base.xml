@@ -9,9 +9,7 @@
     <RelativeLayout
         android:id="@+id/rlContainer"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/margin_left"
-        android:layout_marginRight="@dimen/margin_right">
+        android:layout_height="wrap_content" >
 
         <ViewStub
             android:id="@+id/container"

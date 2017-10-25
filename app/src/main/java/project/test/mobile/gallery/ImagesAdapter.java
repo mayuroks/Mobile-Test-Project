@@ -34,8 +34,8 @@ public class ImagesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     private ArrayList<SearchResultImage> items;
     private Context context;
-    private static final int VIEW_TYPE_IMAGE = 0;
-    private static final int VIEW_TYPE_LOADER = 1;
+    public static final int VIEW_TYPE_IMAGE = 0;
+    public static final int VIEW_TYPE_LOADER = 1;
 
     public ImagesAdapter(Context context, ArrayList<SearchResultImage> items) {
         this.context = context;
@@ -157,7 +157,12 @@ public class ImagesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     @Override
     public int getItemViewType(int position) {
-        return items.get(position) == null ? VIEW_TYPE_LOADER : VIEW_TYPE_IMAGE;
+        int type = 1;
+        if (items.size() > 0) {
+            type = items.get(position) == null ?
+                    VIEW_TYPE_LOADER : VIEW_TYPE_IMAGE;
+        }
+        return type;
     }
 
     public boolean isPlaceholder(int position) {

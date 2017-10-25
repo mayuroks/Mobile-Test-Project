@@ -3,6 +3,7 @@ package project.test.mobile.gallery;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Point;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.annotation.Nullable;
@@ -165,6 +166,7 @@ public class GalleryActivity extends BaseActivity
         rvImages.setDrawingCacheEnabled(true);
         rvImages.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
         rvImages.setNestedScrollingEnabled(false);
+        rvImages.addItemDecoration(new SpacesItemDecoration(10));
         scrollListener = new EndlessRecyclerViewScrollListener(layoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
@@ -258,6 +260,37 @@ public class GalleryActivity extends BaseActivity
         * So load images from page 1
         * */
         presenter.getImages(1);
+    }
+
+    class SpacesItemDecoration extends RecyclerView.ItemDecoration {
+        private int space;
+
+        public SpacesItemDecoration(int space) {
+            this.space = space;
+        }
+
+        @Override
+        public void getItemOffsets(Rect outRect, View view,
+                                   RecyclerView parent,
+                                   RecyclerView.State state) {
+            // Add top margin only for the first item to avoid double space between items
+            int position = parent.getChildLayoutPosition(view);
+            int viewType = parent.getAdapter().getItemViewType(position);
+
+            outRect.top = space;
+            outRect.bottom = space;
+
+            if (viewType == ImagesAdapter.VIEW_TYPE_LOADER) {
+                outRect.right = 0;
+                outRect.left = 0;
+            } else {
+                if ((position % 2) == 0) {
+                    outRect.right = space;
+                } else {
+                    outRect.left = space;
+                }
+            }
+        }
     }
 
 }

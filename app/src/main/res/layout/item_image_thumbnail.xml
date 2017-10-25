@@ -15,7 +15,6 @@
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:layout_centerInParent="true"
-            android:padding="10dp"
             fresco:placeholderImage="@drawable/bg_place_holder"
             fresco:retryImage="@drawable/bg_retry_image"
             fresco:roundedCornerRadius="4dp" />
