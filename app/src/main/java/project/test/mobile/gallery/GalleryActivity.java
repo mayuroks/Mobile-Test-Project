@@ -14,8 +14,6 @@ import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.facebook.drawee.backends.pipeline.Fresco;
-import com.facebook.imagepipeline.core.ImagePipeline;
 import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;
@@ -77,13 +75,6 @@ public class GalleryActivity extends BaseActivity
 
     @Override
     public void initView() {
-
-        // FIXME remove this
-        ImagePipeline imagePipeline = Fresco.getImagePipeline();
-        imagePipeline.clearMemoryCaches();
-        imagePipeline.clearDiskCaches();
-        // FIXME remove this
-
         Logger.i("gallery initView and get images");
         Bundle extras = getIntent().getExtras();
         String fullName = "";
@@ -181,29 +172,6 @@ public class GalleryActivity extends BaseActivity
 
     @Override
     public void showImages(ArrayList<SearchResultImage> images) {
-//        ArrayList<SearchResultImage> cleanImages = new ArrayList<>();
-
-        // README disable this block since
-        // new images are from custom source
-//        for (SearchResultImage image : images) {
-//            if (image.getType() == null) {
-//                ArrayList<SearchResultImage> subImages = image.getImages();
-//
-//                /*
-//                * if image type == null
-//                * display an image from subImages
-//                * */
-//                if (subImages != null && subImages.size() > 0) {
-//                    SearchResultImage image1 = subImages.get(0);
-//                    cleanImages.add(image1);
-//                }
-//            } else if (!image.getType().equalsIgnoreCase("image/gif")) {
-//                // Ignoring gifs the app focuses on images
-//                cleanImages.add(image);
-//            }
-//        }
-
-        int position = imagesAdapter.getItemCount();
         imagesAdapter.addItems(images);
         imagesAdapter.notifyDataSetChanged();
         if (imagesAdapter.getItemCount() == 0) {
