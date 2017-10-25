@@ -69,7 +69,7 @@ public class GalleryActivity extends BaseActivity
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gallery);
-        new GalleryPresenterImpl(this,
+        new GalleryPresenterImpl(this, this,
                 Injection.provideSchedulerProvider(),
                 Injection.providesRepository(this));
     }
@@ -118,7 +118,6 @@ public class GalleryActivity extends BaseActivity
 
             }
         };
-
         timer.start();
     }
 
@@ -130,13 +129,11 @@ public class GalleryActivity extends BaseActivity
     @Override
     public void showProgress() {
         loaderPosition = imagesAdapter.getItemCount();
-        Logger.i("show progress " + loaderPosition);
         if (imagesAdapter.getItemCount() == 0 ||
                 imagesAdapter.getLastItem() != null) {
             scrollListener.setAllowedToLoad(false);
             imagesAdapter.addItem(null);
             imagesAdapter.notifyDataSetChanged();
-            Logger.i("show progress add placeholder");
         }
 
         tvErrorMsg.setVisibility(View.GONE);
@@ -146,7 +143,6 @@ public class GalleryActivity extends BaseActivity
     public void hideProgress() {
         imagesAdapter.removeItem(loaderPosition);
         imagesAdapter.notifyItemRemoved(loaderPosition);
-        Logger.i("show progress remove placeholder");
     }
 
     private void setupImages() {
@@ -183,36 +179,35 @@ public class GalleryActivity extends BaseActivity
 
     @Override
     public void showImages(ArrayList<SearchResultImage> images) {
-        Logger.i("showing images");
-        ArrayList<SearchResultImage> cleanImages = new ArrayList<>();
+//        ArrayList<SearchResultImage> cleanImages = new ArrayList<>();
 
-        for (SearchResultImage image : images) {
-            if (image.getType() == null) {
-                ArrayList<SearchResultImage> subImages = image.getImages();
-
-                /*
-                * if image type == null
-                * display an image from subImages
-                * */
-                if (subImages != null && subImages.size() > 0) {
-                    SearchResultImage image1 = subImages.get(0);
-                    cleanImages.add(image1);
-                }
-            } else if (!image.getType().equalsIgnoreCase("image/gif")) {
-                // Ignoring gifs the app focuses on images
-                cleanImages.add(image);
-            }
-        }
+        // README disable this block since
+        // new images are from custom source
+//        for (SearchResultImage image : images) {
+//            if (image.getType() == null) {
+//                ArrayList<SearchResultImage> subImages = image.getImages();
+//
+//                /*
+//                * if image type == null
+//                * display an image from subImages
+//                * */
+//                if (subImages != null && subImages.size() > 0) {
+//                    SearchResultImage image1 = subImages.get(0);
+//                    cleanImages.add(image1);
+//                }
+//            } else if (!image.getType().equalsIgnoreCase("image/gif")) {
+//                // Ignoring gifs the app focuses on images
+//                cleanImages.add(image);
+//            }
+//        }
 
         int position = imagesAdapter.getItemCount();
-        imagesAdapter.addItems(cleanImages);
+        imagesAdapter.addItems(images);
         imagesAdapter.notifyDataSetChanged();
         if (imagesAdapter.getItemCount() == 0) {
             tvErrorMsg.setVisibility(View.VISIBLE);
         }
-
         scrollListener.setAllowedToLoad(true);
-        Logger.i("RECYCDEBUG position " + position);
     }
 
     @Override
@@ -222,6 +217,9 @@ public class GalleryActivity extends BaseActivity
         * then decrement the page counter
         * */
         scrollListener.setCurrentPage(page - 1);
+        if (imagesAdapter.getItemCount() == 0) {
+            tvErrorMsg.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -242,7 +240,6 @@ public class GalleryActivity extends BaseActivity
         /*
         * Initializing margin top for tvErrorMsg
         * */
-
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);

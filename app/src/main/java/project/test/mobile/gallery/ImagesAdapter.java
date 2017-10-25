@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.controller.ControllerListener;
@@ -57,21 +58,18 @@ public class ImagesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
     @Override
-    public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
         if (holder instanceof VH_Image) {
             final SearchResultImage image = items.get(position);
             VH_Image viewHolder = (VH_Image) holder;
-            Logger.i("IMAGEDEBUG " + image.getLink());
-            Logger.i("IMAGEDEBUG " + image.getType());
-            Logger.i("IMAGEDEBUG " + image.getHeight() + " x " + image.getWidth());
 
-            Uri uri = Uri.parse(image.getLink());
+//            Uri uri = Uri.parse(image.getLink());
             // FIXME load all webp images
-//            String url = "http://thoughtrelics.com/thumbs/thumbnail_" +
-//                    Integer.toString(position + 1) + "_q25.webp";
-//            Uri uri = Uri.parse(url);
+            String url = "http://thoughtrelics.com/thumbs/thumbnail_" +
+                    Integer.toString(position + 1) + "_q25.webp";
+            Uri uri = Uri.parse(url);
             ImageRequest request = ImageRequestBuilder.newBuilderWithSource(uri)
-                    .setResizeOptions(new ResizeOptions(300, 300))
+//                    .setResizeOptions(new ResizeOptions(300, 300))
                     .build();
 
             viewHolder.sdvThumbnail.setController(Fresco.newDraweeControllerBuilder()
